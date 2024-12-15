@@ -68,7 +68,7 @@ If triple backticks are found, return only that section. Otherwise, return CONTE
                                 "\n<<<START>>>\n"
                                 selected
                                 "\n<<<END>>>\n"
-                                after)))
+                                after))) ;; Only one ) here after marked-buffer
     (openai-region--post-request
      openai-region-api-url
      `(("model" . ,openai-region-model)
@@ -76,7 +76,7 @@ If triple backticks are found, return only that section. Otherwise, return CONTE
         [(("role" . "system") 
           ("content" . "You are a helpful assistant. You have been given the entire file as context. Within the file, a region is marked between <<<START>>> and <<<END>>>. The user wants to transform ONLY that region based on their instructions. You must return ONLY the transformed code snippet for that region in triple backticks, and nothing else. Do not include the rest of the file in your response. Do not include explanations. Do not return anything outside the triple backticks."))
          (("role" . "user")
-          ("content" . ,(concat 
+          ("content" . ,(concat
                          prompt
                          "\n\nBelow is the entire file for context. The region that should be transformed is marked between <<<START>>> and <<<END>>>.\n\n"
                          "```file\n"
@@ -90,8 +90,7 @@ If triple backticks are found, return only that section. Otherwise, return CONTE
               (message (alist-get "message" first-choice))
               (content (alist-get "content" message))
               (code (openai-region--extract-code content)))
-         (or code (error "No content returned by OpenAI API"))))))
-
+         (or code (error "No content returned by OpenAI API")))))))
 
 ;;;###autoload
 (defun openai-transform-region (start end)
