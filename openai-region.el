@@ -23,7 +23,7 @@
 (require 'json)
 (require 'url)
 
-(defvar openai-region-model "gpt-3.5-turbo"
+(defvar openai-region-model "gpt-4o-mini"
   "Default OpenAI model to use.")
 
 (defvar openai-region-api-url "https://api.openai.com/v1/chat/completions"
